@@ -66,14 +66,16 @@ class CentroidCalculator:
                         if geocoded_address is None:
                             continue
                         geocoded_address.append(address[1])
-                    elif type(address[0]) == float and type(address[1]) == float:
+                    elif type(address[0]) == float and type(address[1]) == float \
+                        and not (address[0] >= -90.0 and address[0] <= 90.0 and address[1] >= -180.0 and address[1] <= 180.0):
                         geocoded_address = address
                         geocoded_address.append(1)
                     else:
                         print("Could not geocode address (Skipping): ", address)
                         continue
                 elif len(address) == 3:
-                    if type(address[0]) == float and type(address[1]) == float and type(address[2]) == int:
+                    if type(address[0]) == float and type(address[1]) == float and type(address[2]) == int \
+                        and not (address[0] >= -90.0 and address[0] <= 90.0 and address[1] >= -180.0 and address[1] <= 180.0):
                         geocoded_address = address
                     else:
                         print("Could not geocode address (Skipping): ", address)
