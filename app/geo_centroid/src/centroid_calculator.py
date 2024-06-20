@@ -48,10 +48,28 @@ class CentroidCalculator:
             geocoded.append(new_coord)
         return geocoded
 
-    def get_address_centroid(self, addresses):
-        self.geocoded = [self.geocode_address(address) for address in addresses if self.geocode_address(address) is not None]
-        if len(self.geocoded) > 1:
-            return self.generate_centroid(self.geocoded)
+    def get_weighted_centroid(self, addresses):
+        geocoded = [self.geocode_address(address[0]).append(address[1]) for address in addresses if self.geocode_address(address) is not None]
+        if len(geocoded) > 1:
+            return self.generate_centroid(geocoded)
+        else:
+            print("Failed to calculate centroid (Not enough geocoded addresses)")
+            return None
+
+    def get_centroid(self, addresses):
+        geocoded =[]
+        for address in addresses:
+            if type(address) == list and len(address) == 2:
+                geocoded_address = address
+            else:
+                geocoded_address = self.geocode_address(address)
+                if geocoded_address is None:
+                    continue
+            geocoded_address.append(1)
+            geocoded.append(geocoded_address)
+        # geocoded = [self.geocode_address(address).append(1) for address in addresses if self.geocode_address(address) is not None]
+        if len(geocoded) > 1:
+            return self.generate_centroid(geocoded)
         else:
             print("Failed to calculate centroid (Not enough geocoded addresses)")
             return None
@@ -59,14 +77,14 @@ class CentroidCalculator:
 # Example usage:
 if __name__ == "__main__":
     api_key = "AIzaSyAGiZ1yqXYCFE2_TfC3q2VHSwgM0UrU10E"
-    address_list = ["Address 1", "Address 2", "Address 3"]  # Provide your address list here
+    address_list = ["64 Marshall st Waterloo Ontario", "CIF waterloo ontario", "King Street towers, waterloo ontario"]  # Provide your address list here
     calculator = CentroidCalculator(api_key)
-    print(calculator.geocode_address("india"))
-    # centroid = calculator.get_address_centroid(address_list)
-    # if centroid:
-    #     print("Centroid:", centroid)
-    # else:
-    #     print("Not enough geocoded addresses to calculate centroid.")
+    # print(calculator.geocode_address("india"))
+    centroid = calculator.get_centroid(address_list)
+    if centroid:
+        print("Centroid:", centroid)
+    else:
+        print("Not enough geocoded addresses to calculate centroid.")
 
 
 # use cases
