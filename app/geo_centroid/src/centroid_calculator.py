@@ -46,7 +46,7 @@ class CentroidCalculator:
             new_coord = self.calculate_two_point_centroid(*geocoded[0], *geocoded[1])
             geocoded = geocoded[2:]
             geocoded.append(new_coord)
-        return geocoded
+        return geocoded[0]
 
     # def get_weighted_centroid(self, addresses):
     #     geocoded = [self.geocode_address(address[0]).append(address[1]) for address in addresses if self.geocode_address(address) is not None]
