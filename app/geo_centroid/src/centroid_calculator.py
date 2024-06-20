@@ -67,7 +67,7 @@ class CentroidCalculator:
                             continue
                         geocoded_address.append(address[1])
                     elif type(address[0]) == float and type(address[1]) == float \
-                        and not (address[0] >= -90.0 and address[0] <= 90.0 and address[1] >= -180.0 and address[1] <= 180.0):
+                        and address[0] >= -90.0 and address[0] <= 90.0 and address[1] >= -180.0 and address[1] <= 180.0:
                         geocoded_address = address
                         geocoded_address.append(1)
                     else:
@@ -75,7 +75,7 @@ class CentroidCalculator:
                         continue
                 elif len(address) == 3:
                     if type(address[0]) == float and type(address[1]) == float and type(address[2]) == int \
-                        and not (address[0] >= -90.0 and address[0] <= 90.0 and address[1] >= -180.0 and address[1] <= 180.0):
+                        and address[0] >= -90.0 and address[0] <= 90.0 and address[1] >= -180.0 and address[1] <= 180.0:
                         geocoded_address = address
                     else:
                         print("Could not geocode address (Skipping): ", address)
@@ -105,7 +105,7 @@ if __name__ == "__main__":
     api_key = "AIzaSyAGiZ1yqXYCFE2_TfC3q2VHSwgM0UrU10E"
     # address_list = ["64 Marshall st Waterloo Ontario", "CIF waterloo ontario", "King Street towers, waterloo ontario"]  # Provide your address list here
     # address_list = [["64 Marshall st Waterloo Ontario", 5], "CIF waterloo ontario", "King Street towers, waterloo ontario"]  # Provide your address list here
-    address_list = [[43.4740533, -80.5205138, 5], [43.475277, -80.54781349999999, 1], [43.4801632, -80.5260265, 1]]
+    address_list = [[43.4740533, -80.5205138, 5], [443.475277, -80.54781349999999, 1], [43.4801632, -80.5260265, 1]]
     calculator = CentroidCalculator(api_key)
     # print(calculator.geocode_address("india"))
     centroid = calculator.get_centroid(address_list)
