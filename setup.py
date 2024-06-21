@@ -4,7 +4,7 @@ with open("app/README.md", "r") as f:
     long_description = f.read()
 
 setup(
-    name="geo_centroid",
+    name="geocentroid",
     version="0.0.10",
     description="A package to calculate the centroid of a list of addresses.",
     package_dir={"": "app"},
@@ -13,7 +13,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/aadityayadav/geo-centroid",
     author="Aaditya Yadav/ Aditya Swarup",
-    author_email="aadityayadav2003@gmail.com",
+    author_email="aadityayadav2003@gmail.com, adityaswrup78@gmail.com",
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
@@ -22,7 +22,7 @@ setup(
     ],
     install_requires=["googlemaps >= 4.10.0"],
     extras_require={
-        "dev": ["pytest>=7.0", "twine>=4.0.2", "python-dotenv>=1.0.0"],
+        "dev": ["pytest>=7.0", "twine>=4.0.2", "python-dotenv>=1.0.0", "wheel>=0.37.0"],
     },
     python_requires=">=3.5",
 )

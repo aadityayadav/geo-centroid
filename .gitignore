@@ -1,3 +1,6 @@
 __pycache__/
 .python-version
 .env
+dist/
+build/
+app/geocentroid.egg-info/

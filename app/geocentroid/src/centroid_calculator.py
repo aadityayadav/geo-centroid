@@ -64,7 +64,7 @@ class CentroidCalculator:
 
     def generate_centroid(self, geocoded):
         """
-        Generates the centroid of a list of geocoded addresses.
+        Generates the centroid of a list of geocoded addresses with weights.
         @parameters:
         - geocoded (list): A list of geocoded addresses.
         @returns:

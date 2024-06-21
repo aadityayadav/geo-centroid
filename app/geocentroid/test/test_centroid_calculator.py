@@ -1,7 +1,7 @@
 import unittest
 import os
 from dotenv import load_dotenv
-from app.geo_centroid.src.centroid_calculator import CentroidCalculator
+from app.geocentroid.src.centroid_calculator import CentroidCalculator
 
 load_dotenv()
 
