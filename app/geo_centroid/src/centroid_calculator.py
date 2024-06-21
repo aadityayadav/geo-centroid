@@ -3,9 +3,19 @@ import math
 
 class CentroidCalculator:
     def __init__(self, api_key):
+        """
+        Initializes the CentroidCalculator object with the Google Maps API key.
+        """
         self.gmaps = googlemaps.Client(key=api_key)
 
     def geocode_address(self, address):
+        """
+        Geocodes an address to get the latitude and longitude coordinates.
+        @parameters:
+        - address (str): The address to geocode.
+        @returns:
+        - [lat, lng] (list): The latitude and longitude coordinates of the address.
+        """
         result = self.gmaps.geocode(address)
         if result and 'geometry' in result[0]:
             location = result[0]['geometry']['location']
@@ -17,6 +27,18 @@ class CentroidCalculator:
             return None
 
     def calculate_two_point_centroid(self, lat1, lng1, w1, lat2, lng2, w2):
+        """
+        Calculates the centroid of two points with weights.
+        @parameters:
+        - lat1 (float): The latitude of the first point.
+        - lng1 (float): The longitude of the first point.
+        - w1 (int): The weight of the first point.
+        - lat2 (float): The latitude of the second point.
+        - lng2 (float): The longitude of the second point.
+        - w2 (int): The weight of the second point.
+        @returns:
+        - [clat, clng, w1 + w2] (list): The latitude, longitude, and combined weight of the centroid.
+        """
         lat1_rad = lat1 * (math.pi / 180)
         lat2_rad = lat2 * (math.pi / 180)
         lng1_rad = lng1 * (math.pi / 180)
@@ -41,23 +63,33 @@ class CentroidCalculator:
         return [clat, clng, w1 + w2]
 
     def generate_centroid(self, geocoded):
+        """
+        Generates the centroid of a list of geocoded addresses.
+        @parameters:
+        - geocoded (list): A list of geocoded addresses.
+        @returns:
+        - [clat, clng, w] (list): The latitude, longitude, and combined weight of the centroid.
+        """
         while len(geocoded) > 1:
-            # gotta fix the weight thingy here
             new_coord = self.calculate_two_point_centroid(*geocoded[0], *geocoded[1])
             geocoded = geocoded[2:]
             geocoded.append(new_coord)
         return geocoded[0]
 
-    # def get_weighted_centroid(self, addresses):
-    #     geocoded = [self.geocode_address(address[0]).append(address[1]) for address in addresses if self.geocode_address(address) is not None]
-    #     if len(geocoded) > 1:
-    #         return self.generate_centroid(geocoded)
-    #     else:
-    #         print("Failed to calculate centroid (Not enough geocoded addresses)")
-    #         return None
-
     def get_centroid(self, addresses):
+        """
+        Calculates the centroid of a list of addresses.
+        @parameters:
+        - addresses (list): A list of addresses.
+        Each element in the addresses list can be:
+              A string representing the address,
+              A geocoded address [lat, lng],
+              An address with a weight [address, weight] | [lat, lng, weight].
+        @returns:
+        - [clat, clng, w] (list): The latitude, longitude, and combined weight of the centroid.
+        """
         geocoded =[]
+
         for address in addresses:
             if type(address) == list:
                 if len(address) == 2:
@@ -92,31 +124,10 @@ class CentroidCalculator:
                 print("Could not geocode address (Skipping): ", address)
                 continue
             geocoded.append(geocoded_address)
-        # geocoded = [self.geocode_address(address).append(1) for address in addresses if self.geocode_address(address) is not None]
+
         if len(geocoded) > 1:
             print(geocoded)
             return self.generate_centroid(geocoded)
         else:
             print("Failed to calculate centroid (Not enough geocoded addresses)")
             return None
-
-# # Example usage:
-# if __name__ == "__main__":
-#     api_key = "AIzaSyAGiZ1yqXYCFE2_TfC3q2VHSwgM0UrU10E"
-#     # address_list = ["64 Marshall st Waterloo Ontario", "CIF waterloo ontario", "King Street towers, waterloo ontario"]  # Provide your address list here
-#     # address_list = [["64 Marshall st Waterloo Ontario", 5], "CIF waterloo ontario", "King Street towers, waterloo ontario"]  # Provide your address list here
-#     address_list = [[43.4740533, -80.5205138, 5], [443.475277, -80.54781349999999, 1], [43.4801632, -80.5260265, 1]]
-#     calculator = CentroidCalculator(api_key)
-#     # print(calculator.geocode_address("india"))
-#     centroid = calculator.get_centroid(address_list)
-#     if centroid:
-#         print("Centroid:", centroid)
-#     else:
-#         print("Not enough geocoded addresses to calculate centroid.")
-
-
-# use cases
-# 1. address to geocode
-# 2. calculate centroid of addresses or geocoded addresses
-# 3. given a weight associated with an address find the centroid of the addresses
-# 4. get the distance between two addresses

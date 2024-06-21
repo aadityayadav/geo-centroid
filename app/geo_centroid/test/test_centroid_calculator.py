@@ -1,23 +1,24 @@
 import unittest
+import os
+from dotenv import load_dotenv
 from app.geo_centroid.src.centroid_calculator import CentroidCalculator
+
+load_dotenv()
 
 class TestCentroidCalculator(unittest.TestCase):
     def setUp(self):
-        self.calculator = CentroidCalculator("AIzaSyAGiZ1yqXYCFE2_TfC3q2VHSwgM0UrU10E")
+        self.calculator = CentroidCalculator(os.environ.get("API_KEY"))
     
-    # There is a function called assertAlmostEqual in unittest, but not one for
-    # lists. This function is created for that purpose. 
     def assertListAlmostEqual(self, list1, list2, tol):
+        """
+        Asserts that two lists are equal up to a certain tolerance.
+        """
         self.assertEqual(len(list1), len(list2))
         for a, b in zip(list1, list2):
             self.assertAlmostEqual(a, b, tol)
-    #@classmethod
-    #def set_up_class(cls):
-     #   api_key = "AIzaSyAGiZ1yqXYCFE2_TfC3q2VHSwgM0UrU10E"
-      #  return cls(api_key)
     
-    # The error tolerance on the latlng coordinates is up to 3 decimal places. 
-    # At 4 decimal places, the difference is 11.1m, basically negligible.     
+    # The error tolerance for the coordinates is up to 3 decimal places. 
+    # Because at 4 decimal places, the difference is only 11.1m
     def test_geocode_address(self):
         result = self.calculator.geocode_address("64 Marshall st, Waterloo Ontario")
         self.assertListAlmostEqual(result, [43.4741752, -80.5204558], 3)
