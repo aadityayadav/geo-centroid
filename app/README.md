@@ -48,7 +48,7 @@ centroid_of_addresses = geo_calculator.get_centroid([[43.4740533, -80.5205138, 1
                                                      ["King Street towers, waterloo ontario", 38]])
 
 ```
-For test cases check out: [tests](https://github.com/aadityayadav/geo-centroid/blob/main/app/geo_centroid/test).
+For test cases check out: [tests](https://github.com/aadityayadav/geo-centroid/blob/main/app/geocentroid/test/test_centroid_calculator.py).
 <br>
 <br>
 
