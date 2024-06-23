@@ -2,6 +2,8 @@
 A python package that can be used to generate a centroid from a given list of addresses/geocoded locations.
 Further, weights can be attached to each location, to give it a bias, and calculate a weighted centroid.
 <br>
+[![Downloads](https://static.pepy.tech/badge/geocentroid)](https://pepy.tech/project/geocentroid)
+<br>
 <br>
 
 ## Requirements
